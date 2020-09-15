@@ -11,3 +11,42 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.btn {
+  padding: 16px 14px 18px;
+  margin: 5px;
+  font-size: 14px;
+  line-height: 1;
+  border-radius: 500px;
+  transition-property: background-color,border-color,color,box-shadow,filter;
+  transition-duration: .3s;
+  border-width: 0;
+  letter-spacing: 2px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-decoration: none;
+  min-width: 300px;
+}
+
+.btn-green {
+  color: #fff;
+  background-color: #1db954;
+}
+
+.input {
+  padding: 16px 0px 18px;
+  margin-top: 50px;
+  font-size: 14px;
+  line-height: 1;
+  border-radius: 500px;
+  transition-property: background-color,border-color,color,box-shadow,filter;
+  transition-duration: .3s;
+  border-width: 0;
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none;
+  min-width: 300px;
+}
