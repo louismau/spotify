@@ -2,6 +2,7 @@ import React from 'react'
 import { getAlbumsData } from './api'
 import hash from './hash'
 import { authEndpoint, clientId, redirectUri, scopes } from './config'
+import Counter from './Counter.js'
 
 
 export default class Game extends React.Component {
@@ -10,11 +11,12 @@ export default class Game extends React.Component {
     albums: null,
     album: null,
     points: 0,
+    end: false
   }
 
   componentDidMount () {
     // Set token
-    let _token = hash.access_token;
+    const _token = hash.access_token;
     if (_token) {
       // Set token
       this.setState({
@@ -38,7 +40,8 @@ export default class Game extends React.Component {
     this.setState({
       albums: null,
       album: null,
-      points: 0
+      points: 0,
+      end: false
     })
   }
 
@@ -60,12 +63,9 @@ export default class Game extends React.Component {
     }));
   }
 
-  // componentDidUpdate() {
-  //   setInterval(this.setState((state) => ({
-  //     count: state.count - 1
-  //   })), 1000)
-  // }
-
+  handleEnd = (timer) => {
+    this.setState({end: true})
+  }
 
   render() {
     return (
@@ -77,15 +77,16 @@ export default class Game extends React.Component {
             Login to Spotify
           </a>
         )}
-        {this.state.token && !this.state.album && (
+        {this.state.token && !this.state.album && !this.state.end && (
             <button
               className='btn btn-green'
               onClick={this.handleSubmit}>
               Play
             </button>
           )}
-        {this.state.token && this.state.album && (
+        {this.state.token && this.state.album && !this.state.end && (
           <React.Fragment>
+            <Counter handleEnd={this.handleEnd}/>
             <img src={this.state.album.cover} width='300' />
             <input 
               className='input'
@@ -98,6 +99,14 @@ export default class Game extends React.Component {
             </button>
             <button className='btn' onClick={this.handleReset}>
               Restart
+            </button>
+          </React.Fragment>
+        )}
+        {this.state.end && (
+          <React.Fragment>
+            <p>Congrats, your score is {this.state.points}</p>
+            <button className='btn' onClick={this.handleReset}>
+                Restart
             </button>
           </React.Fragment>
         )}
