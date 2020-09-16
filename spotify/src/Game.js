@@ -3,6 +3,10 @@ import { getAlbumsData } from './api'
 import hash from './hash'
 import { authEndpoint, clientId, redirectUri, scopes } from './config'
 import Counter from './Counter.js'
+import Playing from './Playing.js'
+import Play from './Play.js'
+import Result from './Result.js'
+import Restart from './Restart.js'
 
 
 export default class Game extends React.Component {
@@ -27,6 +31,7 @@ export default class Game extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
+    console.log(event)
     getAlbumsData(this.state.token)
     .then((albums) => {
       this.setState({
@@ -78,36 +83,19 @@ export default class Game extends React.Component {
           </a>
         )}
         {this.state.token && !this.state.album && !this.state.end && (
-            <button
-              className='btn btn-green'
-              onClick={this.handleSubmit}>
-              Play
-            </button>
+            <Play handleSubmit={this.handleSubmit}/>
           )}
         {this.state.token && this.state.album && !this.state.end && (
           <React.Fragment>
             <Counter handleEnd={this.handleEnd}/>
-            <img src={this.state.album.cover} width='300' />
-            <input 
-              className='input'
-              type='text' 
-              placeholder='Your guess' 
-              onChange={this.handleWin}></input>
-            <p>Score: {this.state.points} </p>
-            <button className='btn' onClick={this.handleNext}>
-              Next
-            </button>
-            <button className='btn' onClick={this.handleReset}>
-              Restart
-            </button>
+            <Playing cover={this.state.album.cover} handleWin={this.handleWin} points={this.state.points} handleNext={this.handleNext}/>
+            <Restart handleReset={this.handleReset}/>
           </React.Fragment>
         )}
         {this.state.end && (
           <React.Fragment>
-            <p>Congrats, your score is {this.state.points}</p>
-            <button className='btn' onClick={this.handleReset}>
-                Restart
-            </button>
+            <Result points={this.state.points}/>
+            <Restart handleReset={this.handleReset}/>
           </React.Fragment>
         )}
       </React.Fragment>
